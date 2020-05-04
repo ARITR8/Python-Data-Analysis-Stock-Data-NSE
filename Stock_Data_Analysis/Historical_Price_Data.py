@@ -1,7 +1,8 @@
 import pandas as pd
 import sqlalchemy
-import sqlalchemy
-from database_conn import database_details
+from sqlalchemy import create_engine
+import io
+from database_conn import DatabaseConnection
 from nsepy import get_history
 from datetime import date
 import pandas_datareader as web
@@ -23,17 +24,30 @@ class PriceData:
         # print(raw_list)
         return raw_list
 
-    def get_historical_data(self, arr, start_date, end_date, output_file):
+    def get_historical_data(self, arr, start_date, end_date):
         for i in arr:
             data_output = get_history(symbol=i, start=start_date, end=end_date)
             # print(data_output)
+
             return data_output
 
-    def postgres_data_store(self,con):
+    def postgres_data_store(self, postgrecon, pd):
         table_name = "HISTORICAL_DATA"
-        print(pd.to_sql(table_name,con))
+
 
 
 obj1 = PriceData("data.csv")
 k1 = obj1.stock_symbol_store()
-obj1.get_historical_data(k1, date(2020, 4, 29), date(2020, 4, 30), "output.csv")
+df = pd.DataFrame(obj1.get_historical_data(k1, date(2020, 4, 29), date(2020, 4, 30)))
+
+engine = sqlalchemy.create_engine("postgresql://postgres:password@localhost/Stock")
+
+conn = engine.raw_connection()
+cur = conn.cursor()
+output = io.StringIO()
+df.to_csv(output, sep='\t', header=False, index=False)
+output.seek(0)
+contents = output.getvalue()
+cur.copy_from(output, 'historical_data', null="") # null values become ''
+conn.commit()
+

@@ -1,8 +1,10 @@
 import pandas as pd
 import sqlalchemy
+import csv
 from sqlalchemy import create_engine
 import io
-from database_conn import DatabaseConnection
+import sys
+import psycopg2
 from nsepy import get_history
 from datetime import date
 import pandas_datareader as web
@@ -24,30 +26,46 @@ class PriceData:
         # print(raw_list)
         return raw_list
 
-    def get_historical_data(self, arr, start_date, end_date):
+    def load_data_csv(self, arr, start_date, end_date):
+        df2 = pd.DataFrame()
         for i in arr:
             data_output = get_history(symbol=i, start=start_date, end=end_date)
-            # print(data_output)
+            df2 = df2.append(data_output)
+            df2.to_csv('historical_price.csv', mode='w', header=False)
 
-            return data_output
+    def pg_load_table(self,file_path, table_name, dbname, host, port, user, pwd):
+        '''
+        This function upload csv to a target table
+        '''
+        try:
+            conn = psycopg2.connect(dbname=dbname, host=host, port = port,
+                                    user=user, password=pwd)
+            print("Connecting to Database")
+            cur = conn.cursor()
+            f = open(file_path, "r")
+            # Truncate the table first
+            cur.execute("Truncate {} Cascade;".format(table_name))
+            print("Truncated {}".format(table_name))
+            # Load table from the file with header
+            cur.copy_expert("copy {} from STDIN CSV HEADER QUOTE '\"'".format(table_name), f)
+            cur.execute("commit;")
+            print("Loaded data into {}".format(table_name))
+            conn.close()
+            print("DB connection closed.")
 
-    def postgres_data_store(self, postgrecon, pd):
-        table_name = "HISTORICAL_DATA"
-
+        except Exception as e:
+            print("Error: {}".format(str(e)))
+            sys.exit(1)
 
 
 obj1 = PriceData("data.csv")
 k1 = obj1.stock_symbol_store()
-df = pd.DataFrame(obj1.get_historical_data(k1, date(2020, 4, 29), date(2020, 4, 30)))
-
-engine = sqlalchemy.create_engine("postgresql://postgres:password@localhost/Stock")
-
-conn = engine.raw_connection()
-cur = conn.cursor()
-output = io.StringIO()
-df.to_csv(output, sep='\t', header=False, index=False)
-output.seek(0)
-contents = output.getvalue()
-cur.copy_from(output, 'historical_data', null="") # null values become ''
-conn.commit()
-
+obj1.load_data_csv(k1, date(2020, 4, 29), date(2020, 4, 30))
+file_path = 'F:\Python-Stock_Analysis\Stock_Data_Analysis\historical_price.csv'
+table_name = 'historical_data'
+dbname = 'Stock'
+host = 'localhost'
+user = 'postgres'
+pwd = 'password'
+port = '5432'
+obj1.pg_load_table(file_path, table_name, dbname, host, port, user, pwd)

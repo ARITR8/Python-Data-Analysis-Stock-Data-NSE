@@ -60,7 +60,7 @@ class PriceData:
 
 obj1 = PriceData("data.csv")
 k1 = obj1.stock_symbol_store()
-obj1.load_data_csv(k1, date(2020, 4, 29), date(2020, 4, 30))
+obj1.load_data_csv(k1, date(2020, 4, 1), date(2020, 4, 30))
 file_path = 'F:\Python-Stock_Analysis\Stock_Data_Analysis\historical_price.csv'
 table_name = 'historical_data'
 dbname = 'Stock'

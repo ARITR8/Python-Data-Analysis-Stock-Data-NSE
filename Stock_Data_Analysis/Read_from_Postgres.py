@@ -27,7 +27,8 @@ df_unique_symbols = (df ['symbol'].unique())
 #print(df.loc[0],['close_price', 'date_recorded'])
 
 xfile = openpyxl.load_workbook('Book 4.xlsx')
-sheet = xfile.get_sheet_by_name('Sheet1')
+page=xfile.active
+#sheet = xfile.get_sheet_by_name('Sheet1')
 for i in df_unique_symbols:
 
     #exec("sticky"+str(i)+"  = df[df.symbol == i]")
@@ -39,12 +40,12 @@ for i in df_unique_symbols:
     #k1.truncate(before='2020-02-22')['Close'].plot(figsize=(16, 12))
     k1['close_price'].plot(label = f'{k1}', figsize = (16,8), title = f'closing price of {i}')
     #plt.legend()
-    #plt.show()
-    namepng = f'{i}'
-    namepng=namepng.strip()
-    print(namepng)
-    plt.savefig('namepng.png')
-    image = Image('namepng.png')
-
-    sheet.add_image(image, 'L6')
+    plt.show()
+    #namepng = f'{i}'
+    #namepng=namepng.strip()
+    #print(namepng)
+    #plt.savefig('namepng.png')
+    #image = Image('namepng.png')
+    #page.append(image)
+    #sheet.add_image(image, 'L6')
 xfile.save('Book 4.xlsx')

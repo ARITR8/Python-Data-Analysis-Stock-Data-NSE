@@ -9,7 +9,7 @@ from nsepy import get_history
 from datetime import date
 import pandas_datareader as web
 from pandas.util.testing import assert_frame_equal
-
+import cx_Oracle
 
 class PriceData:
     def __init__(self, file_name):
@@ -21,7 +21,7 @@ class PriceData:
 
     def stock_symbol_store(self):
         raw_data = pd.read_csv(self.fileName)
-        raw_list = list(raw_data.Symbol)
+        raw_list = list(raw_data.SYMBOL)
         raw_list.pop(0)
         # print(raw_list)
         return raw_list
@@ -57,10 +57,30 @@ class PriceData:
             print("Error: {}".format(str(e)))
             sys.exit(1)
 
+    def load_data_oracle(self):
+         reader = csv.reader(open("data.csv", "r"))
+         lines = []
+         for line in reader:
+             lines.append(line)
+         con = cx_Oracle.connect('system/password@localhost/XE')
+         ver = con.version.split(".")
+         print(ver)
+         cur = con.cursor()
+         for kine in lines:
+             cur.execute(" INSERT INTO historical_data ('date_recorded', 'symbol','series', 'prev_close_price',  'open_price',"
+                         "'high_price' ,'low_price' ,'last_price' ,"
+                         " 'close_price', 'vwap' , 'volume' ,   'turnover' ,   "
+                         " 'trades' ,                'deliverable_volume',                'prcntg_deliverble' ) VALUES(:1,:2,:3,:4,:5,:6, :7, :8 , :9, :10, :11, :12, :13, :14, :15)" ,
+                 kine)
+         con.commit()
+         cur.close()
+
+
 
 obj1 = PriceData("data.csv")
 k1 = obj1.stock_symbol_store()
 obj1.load_data_csv(k1, date(2020, 4, 1), date(2020, 4, 30))
+#obj1.load_data_oracle()
 file_path = 'F:\Python-Stock_Analysis\Stock_Data_Analysis\historical_price.csv'
 table_name = 'historical_data'
 dbname = 'Stock'

@@ -80,7 +80,9 @@ class PriceData:
 obj1 = PriceData("data.csv")
 k1 = obj1.stock_symbol_store()
 print(k1)
-obj1.load_data_csv(k1, date(2020, 4, 1), date(2020, 4, 30))
+#arr = ['TATAMOTORS']
+#obj1.load_data_csv(arr, date(2020, 1, 1), date(2020, 4, 30))
+obj1.load_data_csv(k1, date(2020, 1, 29), date(2020, 4, 30))
 #obj1.load_data_oracle()
 file_path = 'F:\Python-Stock_Analysis\Stock_Data_Analysis\historical_price.csv'
 table_name = 'historical_data'

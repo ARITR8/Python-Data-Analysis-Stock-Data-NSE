@@ -30,7 +30,7 @@ class PriceData:
         df2 = pd.DataFrame()
         for i in arr:
             data_output = get_history(symbol=i, start=start_date, end=end_date)
-            df2 = df2.append(data_output)
+            #df2 = df2.append(data_output)
             df2.to_csv('historical_price.csv', mode='w', header=False)
 
     def pg_load_table(self,file_path, table_name, dbname, host, port, user, pwd):
@@ -79,6 +79,7 @@ class PriceData:
 
 obj1 = PriceData("data.csv")
 k1 = obj1.stock_symbol_store()
+print(k1)
 obj1.load_data_csv(k1, date(2020, 4, 1), date(2020, 4, 30))
 #obj1.load_data_oracle()
 file_path = 'F:\Python-Stock_Analysis\Stock_Data_Analysis\historical_price.csv'

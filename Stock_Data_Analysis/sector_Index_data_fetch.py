@@ -109,4 +109,4 @@ host = 'localhost'
 user = 'postgres'
 pwd = 'password'
 port = '5432'
-#obj1.pg_load_table(file_path, table_name, dbname, host, port, user, pwd)
+obj1.pg_load_table(file_path, table_name, dbname, host, port, user, pwd)

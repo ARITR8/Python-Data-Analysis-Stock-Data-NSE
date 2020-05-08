@@ -36,7 +36,7 @@ class BarChartPlot():
         start_date = start_date[0]
         end_date = df['end_date'].to_list()
         end_date = end_date[0]
-        ax.set_title(f'chart generated starting from {start_date} to {end_date}')
+        ax.set_title(f'Nifty Index chart generated starting from {start_date} to {end_date}')
 
         print(type(ax))
         rects = ax.patches
@@ -79,14 +79,16 @@ pwd = 'password'
 port = '5432'
 
 #6month plotting
-mysql_6 = '''SELECT trim(M1.SYMBOL) SYMBOL, M1.OPEN_PRICE  , M2.CLOSE_PRICE , (M2.CLOSE_PRICE-M1.OPEN_PRICE) PRICE_CHANGE
+mysql_6 = '''SELECT trim(M1.SYMBOL) SYMBOL, M1.OPEN_PRICE  , M2.CLOSE_PRICE ,
+ (M2.CLOSE_PRICE-M1.OPEN_PRICE) PRICE_CHANGE  , m1.date_recorded as start_date , m2.date_recorded as end_date
 FROM HISTORICAL_DATA_INDICES M1 , HISTORICAL_DATA_INDICES M2
 WHERE M1.DATE_RECORDED = '2019-11-29'
 AND M2.DATE_RECORDED = '2020-05-07'
 AND M1.SYMBOL = M2.SYMBOL'''
 
 #3month plotting
-mysql_3 = '''SELECT trim(M1.SYMBOL) SYMBOL, M1.OPEN_PRICE  , M2.CLOSE_PRICE , (M2.CLOSE_PRICE-M1.OPEN_PRICE) PRICE_CHANGE
+mysql_3 = '''SELECT trim(M1.SYMBOL) SYMBOL, M1.OPEN_PRICE  , M2.CLOSE_PRICE , 
+(M2.CLOSE_PRICE-M1.OPEN_PRICE) PRICE_CHANGE,  m1.date_recorded as start_date , m2.date_recorded as end_date
 FROM HISTORICAL_DATA_INDICES M1 , HISTORICAL_DATA_INDICES M2
 WHERE M1.DATE_RECORDED = '2020-02-01'
 AND M2.DATE_RECORDED = '2020-05-07'
@@ -102,7 +104,8 @@ AND M2.DATE_RECORDED = '2020-02-01'
 AND M1.SYMBOL = M2.SYMBOL'''
 
 #one month old data
-mysql_1 = '''SELECT trim(M1.SYMBOL) SYMBOL, M1.OPEN_PRICE  , M2.CLOSE_PRICE , (M2.CLOSE_PRICE-M1.OPEN_PRICE) PRICE_CHANGE
+mysql_1 = '''SELECT trim(M1.SYMBOL) SYMBOL, M1.OPEN_PRICE  ,
+ M2.CLOSE_PRICE , (M2.CLOSE_PRICE-M1.OPEN_PRICE) PRICE_CHANGE  , m1.date_recorded as start_date , m2.date_recorded as end_date
 FROM HISTORICAL_DATA_INDICES M1 , HISTORICAL_DATA_INDICES M2
 WHERE M1.DATE_RECORDED = '2020-04-01'
 AND M2.DATE_RECORDED = '2020-05-06'
@@ -110,7 +113,8 @@ AND M1.SYMBOL = M2.SYMBOL'''
 
 
 #1 week old data
-mysql_1w = '''SELECT trim(M1.SYMBOL) SYMBOL, M1.OPEN_PRICE  , M2.CLOSE_PRICE , (M2.CLOSE_PRICE-M1.OPEN_PRICE) PRICE_CHANGE
+mysql_1w = '''SELECT trim(M1.SYMBOL) SYMBOL, M1.OPEN_PRICE  , M2.CLOSE_PRICE , 
+(M2.CLOSE_PRICE-M1.OPEN_PRICE) PRICE_CHANGE  , m1.date_recorded as start_date , m2.date_recorded as end_date
 FROM HISTORICAL_DATA_INDICES M1 , HISTORICAL_DATA_INDICES M2
 WHERE M1.DATE_RECORDED = '2020-04-24'
 AND M2.DATE_RECORDED = '2020-05-06'
@@ -118,7 +122,7 @@ AND M1.SYMBOL = M2.SYMBOL'''
 
 
 obj1 = BarChartPlot(table_name, dbname, host, user, pwd, port)
-df = obj1.db_fetch_query(mysql_31)
+df = obj1.db_fetch_query(mysql_1w)
 obj1.bar_chart_plot(df)
 
 

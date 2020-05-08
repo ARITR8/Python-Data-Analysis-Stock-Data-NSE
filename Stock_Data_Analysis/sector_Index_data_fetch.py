@@ -1,3 +1,4 @@
+import inspect
 import pandas as pd
 import sqlalchemy
 import csv
@@ -7,6 +8,17 @@ import sys
 import psycopg2
 from nsepy import get_history
 from datetime import date
+from nsepy.urls import *
+import six
+from nsepy.commons import *
+from nsepy.constants import *
+from datetime import date, timedelta
+from bs4 import BeautifulSoup
+import pandas as pd
+import six
+import inspect
+import io
+import pdb
 import pandas_datareader as web
 from pandas.util.testing import assert_frame_equal
 import cx_Oracle
@@ -25,29 +37,38 @@ class sector_indices_fetch:
         raw_data = pd.read_csv(self.fileName)
         raw_list = list(raw_data.Symbol)
         raw_list.pop(0)
-        # print(raw_list)
+        print(raw_list)
         return raw_list
+
 
     def load_data_csv(self, arr, start_date, end_date):
         df2 = pd.DataFrame()
         df3 = pd.DataFrame()
-        df_list = []
+
         for i in arr:
             #data_output = get_history(symbol=i, start=start_date, end=end_date)
-            print(i)
+            #print(i)
             data_output = get_history(symbol=i,
                                        start=start_date,
                                        end=end_date,
                                        index=True)
 
-
+            print(data_output)
             #print(df_list)
-            df2 = df2.append(data_output)
-            #print(df2)
+            df2 = df2.append(data_output) ###--- for one value
 
-            df_list = df_list.append(i)
-            print (df_list)
-            #print(df2)
+            df_list = []
+            for item in df2.iterrows()  :
+                df_list.append(i)
+                #print (df_list)
+            print(df_list)
+
+            print(type(df_list))
+            df2['indices'] = df_list
+
+            print(df2)
+
+            df2 = df2.append(df2)
             df2.to_csv('historical_price_indices.csv', mode='w', header=False)
 
 

@@ -30,7 +30,7 @@ class PriceData:
         df2 = pd.DataFrame()
         for i in arr:
             data_output = get_history(symbol=i, start=start_date, end=end_date)
-            #df2 = df2.append(data_output)
+            df2 = df2.append(data_output)
             df2.to_csv('historical_price.csv', mode='w', header=False)
 
     def pg_load_table(self,file_path, table_name, dbname, host, port, user, pwd):

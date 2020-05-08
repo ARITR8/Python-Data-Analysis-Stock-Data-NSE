@@ -44,7 +44,7 @@ class sector_indices_fetch:
     def load_data_csv(self, arr, start_date, end_date):
         df2 = pd.DataFrame()
         df3 = pd.DataFrame()
-
+        arr  = ['Nifty Auto','Nifty Pharma']
         for i in arr:
             #data_output = get_history(symbol=i, start=start_date, end=end_date)
             #print(i)
@@ -53,24 +53,36 @@ class sector_indices_fetch:
                                        end=end_date,
                                        index=True)
 
-            #print(data_output)
+            print(data_output)
             #print(df_list)
-            df2 = df2.append(data_output) ###--- for one value
-
+            #df2 = df2.append(data_output) ###--- for one value
+            print(df2)
             df_list = []
-            for item in df2.iterrows()  :
+
+
+
+
+            ik=0
+            for item in data_output.iterrows()  :
+                ik=ik+1
+                print(i)
                 df_list.append(i)
                 #print (df_list)
-                #print(df_list)
+            print(len(df_list))
 
-            print(type(df_list))
-            df2['indices'] = df_list
+            #print(type(df_list))
+            #blank = pd.DataFrame(df2)
+            blank = []
 
+            dl = pd.DataFrame()
+            dl = data_output.assign(indices = df_list)
+            df2 = df2.append(dl)
             #print(df2)
+            df2.to_csv('historical_price_indices.csv', mode='w', header=False)
 
-            dflist = df2.append(df2)
-            print(dflist)
-            dflist.to_csv('historical_price_indices.csv', mode='a', header=False)
+
+
+
 
 
     def pg_load_table(self, file_path, table_name, dbname, host, port, user, pwd):
@@ -100,7 +112,7 @@ class sector_indices_fetch:
 
 obj1 = sector_indices_fetch("Nifty_indices.csv")
 k1 = obj1.stock_symbol_store()
-obj1.load_data_csv(k1, date(2020, 1, 1), date(2020, 5, 7))
+obj1.load_data_csv(k1, date(2019, 11, 8), date(2020, 5, 7))
 # obj1.load_data_oracle()
 file_path = 'F:\Python-Stock_Analysis\Stock_Data_Analysis\historical_price_indices.csv'
 table_name = 'historical_data_indices'

@@ -44,7 +44,7 @@ class sector_indices_fetch:
     def load_data_csv(self, arr, start_date, end_date):
         df2 = pd.DataFrame()
         df3 = pd.DataFrame()
-        arr  = ['Nifty Auto','Nifty Pharma']
+        #arr  = ['Nifty Auto','Nifty Pharma']
         for i in arr:
             #data_output = get_history(symbol=i, start=start_date, end=end_date)
             #print(i)

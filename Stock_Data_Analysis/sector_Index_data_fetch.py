@@ -76,8 +76,10 @@ class sector_indices_fetch:
 
             dl = pd.DataFrame()
             dl = data_output.assign(indices = df_list)
+            dl['indices'] = dl['indices'].str.strip()
             df2 = df2.append(dl)
             #print(df2)
+
             df2.to_csv('historical_price_indices.csv', mode='w', header=False)
 
 

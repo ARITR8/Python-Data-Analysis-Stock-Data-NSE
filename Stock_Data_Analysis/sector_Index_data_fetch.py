@@ -53,7 +53,7 @@ class sector_indices_fetch:
                                        end=end_date,
                                        index=True)
 
-            print(data_output)
+            #print(data_output)
             #print(df_list)
             df2 = df2.append(data_output) ###--- for one value
 
@@ -61,15 +61,16 @@ class sector_indices_fetch:
             for item in df2.iterrows()  :
                 df_list.append(i)
                 #print (df_list)
-            print(df_list)
+                #print(df_list)
 
             print(type(df_list))
             df2['indices'] = df_list
 
-            print(df2)
+            #print(df2)
 
-            df2 = df2.append(df2)
-            df2.to_csv('historical_price_indices.csv', mode='w', header=False)
+            dflist = df2.append(df2)
+            print(dflist)
+            dflist.to_csv('historical_price_indices.csv', mode='a', header=False)
 
 
     def pg_load_table(self, file_path, table_name, dbname, host, port, user, pwd):

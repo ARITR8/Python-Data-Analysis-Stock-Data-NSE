@@ -22,16 +22,19 @@ class PriceData:
     def stock_symbol_store(self):
         raw_data = pd.read_csv(self.fileName)
         raw_list = list(raw_data.SYMBOL)
-        raw_list.pop(0)
+        #raw_list.pop(0)
         # print(raw_list)
         return raw_list
 
     def load_data_csv(self, arr, start_date, end_date):
         df2 = pd.DataFrame()
         for i in arr:
+            print(i)
             data_output = get_history(symbol=i, start=start_date, end=end_date)
+            print(data_output)
             df2 = df2.append(data_output)
             df2.to_csv('historical_price.csv', mode='w', header=False)
+
 
     def pg_load_table(self,file_path, table_name, dbname, host, port, user, pwd):
         '''
@@ -76,13 +79,16 @@ class PriceData:
          cur.close()
 
 
-
+#arr = ['TATAMOTORS','M&M','MRF','MOTHERSUMI','APOLLOTYRE','AMARAJABAT','BAJAJ-AUTO','HEROMOTOCO','TVSMOTOR','MARUTI','BHARATFORG','BOSCHLTD']
 obj1 = PriceData("data.csv")
 k1 = obj1.stock_symbol_store()
 print(k1)
-#arr = ['TATAMOTORS']
-#obj1.load_data_csv(arr, date(2020, 1, 1), date(2020, 4, 30))
-obj1.load_data_csv(k1, date(2020, 1, 29), date(2020, 4, 30))
+print(len(k1))
+
+#obj1.load_data_csv(arr, date(2020, 4, 11), date(2020, 5, 11))
+
+obj1.load_data_csv(k1, date(2019, 4, 14), date(2020, 5, 15))
+
 #obj1.load_data_oracle()
 file_path = 'F:\Python-Stock_Analysis\Stock_Data_Analysis\historical_price.csv'
 table_name = 'historical_data'

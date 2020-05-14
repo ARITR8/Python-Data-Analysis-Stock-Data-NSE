@@ -12,7 +12,7 @@ host = 'localhost'
 user = 'postgres'
 pwd = 'password'
 port = '5432'
-SYMBOL = "'TATAMOTORS'"
+SYMBOL = "'MRF'"
 
 conn = f'postgres://{user}:{pwd}@{host}:{port}/{dbname}'
 print(conn)

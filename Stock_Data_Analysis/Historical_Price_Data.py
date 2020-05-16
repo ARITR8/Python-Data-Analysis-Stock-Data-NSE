@@ -47,10 +47,10 @@ class PriceData:
             cur = conn.cursor()
             f = open(file_path, "r")
             # Truncate the table first
-            cur.execute("Truncate {} Cascade;".format(table_name))
-            print("Truncated {}".format(table_name))
+            #cur.execute("Truncate {} Cascade;".format(table_name))
+            #print("Truncated {}".format(table_name))
             # Load table from the file with header
-            cur.copy_expert("copy {} from STDIN CSV HEADER QUOTE '\"'".format(table_name), f)
+            cur.copy_expert("copy {} from STDIN CSV HEADER QUOTE '\"'".format(table_name), f )#f is removed from here
             cur.execute("commit;")
             print("Loaded data into {}".format(table_name))
             conn.close()
@@ -87,7 +87,7 @@ print(len(k1))
 
 #obj1.load_data_csv(arr, date(2020, 4, 11), date(2020, 5, 11))
 
-obj1.load_data_csv(k1, date(2019, 4, 14), date(2020, 5, 15))
+#obj1.load_data_csv(k1, date(2020, 5, 14), date(2020, 5, 15))
 
 #obj1.load_data_oracle()
 file_path = 'F:\Python-Stock_Analysis\Stock_Data_Analysis\historical_price.csv'

@@ -114,7 +114,7 @@ class sector_indices_fetch:
 
 obj1 = sector_indices_fetch("Nifty_indices.csv")
 k1 = obj1.stock_symbol_store()
-obj1.load_data_csv(k1, date(2019, 4, 8), date(2020, 5, 13))
+obj1.load_data_csv(k1, date(2020, 1, 25), date(2020, 5, 18))
 # obj1.load_data_oracle()
 file_path = 'F:\Python-Stock_Analysis\Stock_Data_Analysis\historical_price_indices.csv'
 table_name = 'historical_data_indices'

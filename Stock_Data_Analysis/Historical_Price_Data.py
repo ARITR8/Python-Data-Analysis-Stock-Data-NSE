@@ -87,7 +87,7 @@ print(len(k1))
 
 #obj1.load_data_csv(arr, date(2020, 4, 11), date(2020, 5, 11))
 
-#obj1.load_data_csv(k1, date(2020, 5, 14), date(2020, 5, 15))
+obj1.load_data_csv(k1, date(2020, 5, 19), date(2020, 5, 19))
 
 #obj1.load_data_oracle()
 file_path = 'F:\Python-Stock_Analysis\Stock_Data_Analysis\historical_price.csv'

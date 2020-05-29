@@ -94,6 +94,7 @@ for i in df_unique_symbols:
    # print(indicator)
     df[MACD_INDICATOR] = indicator.macd()
     df["MACD_SIGNAL_indicator"] = indicator.macd_signal()
+
    # print(df)
 
     """For Relative Strength: Stochastics (14,7,3)"""
@@ -141,7 +142,7 @@ for i in df_unique_symbols:
     df2.to_csv('MACD_price.csv', mode='w', header=False)
 
 
-table_name1 = 'TECHNICAL_ANALYSIS'
+table_name1 = 'TECHNICAL_ANALYSIS1'
 
 
 

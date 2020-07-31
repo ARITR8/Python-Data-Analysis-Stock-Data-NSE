@@ -80,7 +80,7 @@ for i in df_unique_symbols:
                        f'{high_price} high_price , {volume1} volume , {SYMBOL} symbol'
                        f' from nifty_500_technical_analysis where nifty_500_technical_analysis.symbol  = {SYMBOL}', conn)
     #40 days SMA calculation
-    indicator = SMAIndicator(close=df["close_price"], n=50, fillna=False)
+    indicator = SMAIndicator(close=df["close_price"], n=40, fillna=False)
 
     SMA_INDICATOR = "SMA_indicator"
 

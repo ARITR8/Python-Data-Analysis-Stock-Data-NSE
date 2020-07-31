@@ -80,14 +80,14 @@ class PriceData:
 
 
 #arr = ['TATAMOTORS','M&M','MRF','MOTHERSUMI','APOLLOTYRE','AMARAJABAT','BAJAJ-AUTO','HEROMOTOCO','TVSMOTOR','MARUTI','BHARATFORG','BOSCHLTD']
-obj1 = PriceData("ind_nifty500list.csv")
+obj1 = PriceData("ind_nifty100list.csv")
 k1 = obj1.stock_symbol_store()
 print(k1)
 print(len(k1))
 
 #obj1.load_data_csv(arr, date(2020, 4, 11), date(2020, 5, 11))
 
-obj1.load_data_csv(k1, date(2019, 11, 19), date(2020, 5, 28))
+obj1.load_data_csv(k1, date(2020, 1, 1), date(2020, 7, 30))
 
 #obj1.load_data_oracle()
 file_path = 'F:\Python-Stock_Analysis\Stock_Data_Analysis\\nifty_500_historical_price.csv'
